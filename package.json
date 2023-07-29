@@ -11,12 +11,15 @@
         "prettier": "prettier --write \"src/**/*.ts\"",
         "lint": "eslint \"src/**/*.ts\" --fix",
         "format": "npm run prettier && npm run lint",
-        "prepare": "husky install"
+        "prisma:generate": "prisma generate",
+        "prisma:migrate": "prisma migrate dev",
+        "prisma:studio": "prisma studio"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@prisma/client": "^5.0.0",
         "dotenv": "^16.3.1",
         "fastify": "^4.21.0",
         "zod": "^3.21.4"
@@ -29,10 +32,10 @@
         "eslint": "^8.46.0",
         "eslint-config-prettier": "^8.9.0",
         "eslint-plugin-prettier": "^5.0.0",
+        "husky": "^8.0.0",
         "prettier": "^3.0.0",
         "prisma": "^5.0.0",
         "tsx": "^3.12.7",
-        "typescript": "^5.1.6",
-        "husky": "^8.0.0"
+        "typescript": "^5.1.6"
     }
 }
