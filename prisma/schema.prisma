@@ -24,4 +24,5 @@ model Pets {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
 }
