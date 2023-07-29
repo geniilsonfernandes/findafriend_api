@@ -1,9 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { CreatePetUseCase } from './CreatePetUseCase'
-
-import { z } from 'zod'
 import { ErrorHandler } from '../../utils/errors/ErrorHandler'
 import { PrismaPetsRepository } from '../../repositories/prisma/PrismaPetsRepository'
+
+import { z } from 'zod'
+import { storagePhotos } from '../../helper/storagePhotos'
 
 const createPetSchema = z.object({
     name: z.string(),
@@ -27,7 +28,9 @@ async function createPetController(request: FastifyRequest, reply: FastifyReply)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { files } = request as any
 
-        const photos_url = files.map((file) => file.filename)
+        const urls = await storagePhotos(files)
+
+        const requerimentsSplit = requirements.split(',')
 
         const pet = await createPet.execute({
             name,
@@ -36,13 +39,15 @@ async function createPetController(request: FastifyRequest, reply: FastifyReply)
             energy_level,
             environment,
             independence_level,
-            requirements,
+            requirements: requerimentsSplit,
+
             size,
-            photos: photos_url
+            photos: urls
         })
 
         reply.code(201).send({
             message: 'Pet created successfully',
+            requirements,
             pet
         })
     } catch (err) {
@@ -50,7 +55,7 @@ async function createPetController(request: FastifyRequest, reply: FastifyReply)
             reply.code(400).send({ message: err.message })
         }
 
-        reply.code(500).send({ error: err.message })
+        throw err
     }
 }
 

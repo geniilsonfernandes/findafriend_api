@@ -22,7 +22,25 @@ model Pets {
     photos             String[]
     requirements       String[]
 
+    createdAt       DateTime       @default(now())
+    updatedAt       DateTime       @updatedAt
+    Organization    Organizations? @relation(fields: [organization_id], references: [id])
+    organization_id String?
+}
+
+model Organizations {
+    id       String  @id @default(uuid())
+    name     String
+    email    String
+    phone    String
+    address  String
+    city     String
+    state    String
+    cep      String
+    website  String? @default("")
+    password String
+
+    pets      Pets[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
 }

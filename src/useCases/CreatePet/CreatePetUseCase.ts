@@ -1,4 +1,4 @@
-import { IPet } from '../../entities/Pet'
+import { IPet } from '../../entities/Pets'
 import { PrismaPetsRepository } from '../../repositories/prisma/PrismaPetsRepository'
 
 interface ICreatePetUseCaseRequestDTO {

@@ -8,7 +8,7 @@ async function appRoutes(app: FastifyInstance) {
     app.post(
         '/pets',
         {
-            preHandler: upload('./uploads').array('images', 5)
+            preHandler: upload().array('images', 5)
         },
         createPetController
     )

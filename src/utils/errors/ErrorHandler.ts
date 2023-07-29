@@ -34,4 +34,10 @@ class UploadError extends ErrorHandler {
     }
 }
 
+export class UserAlreadyExistsError extends ErrorHandler {
+    constructor(message = 'User already exists') {
+        super(message)
+    }
+}
+
 export { ErrorHandler, ForbiddenError, UnauthorizedError, NotFoundError, BadRequestError, UploadError }
