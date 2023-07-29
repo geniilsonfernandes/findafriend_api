@@ -1,5 +1,8 @@
 import { prisma } from '../../lib/prisma'
-import { IOrganizationCreateDTO, OrganizationsRepository } from '../implementations/IOrganizationsRepository'
+import {
+    IOrganizationCreateDTO,
+    OrganizationsRepository
+} from '../implementations/IOrganizationsRepository'
 import { Organizations } from '../../entities/Organizations'
 
 class PrismaOrganizationsRepository implements OrganizationsRepository {

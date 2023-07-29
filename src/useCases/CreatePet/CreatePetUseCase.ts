@@ -18,7 +18,9 @@ interface ICreatePetUseCaseResponseDTO extends IPet {}
 class CreatePetUseCase {
     constructor(private petsRepository: PrismaPetsRepository) {}
 
-    async execute(request: ICreatePetUseCaseRequestDTO): Promise<ICreatePetUseCaseResponseDTO> {
+    async execute(
+        request: ICreatePetUseCaseRequestDTO
+    ): Promise<ICreatePetUseCaseResponseDTO> {
         const pet = await this.petsRepository.create(request)
 
         return pet

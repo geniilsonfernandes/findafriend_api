@@ -40,4 +40,11 @@ export class UserAlreadyExistsError extends ErrorHandler {
     }
 }
 
-export { ErrorHandler, ForbiddenError, UnauthorizedError, NotFoundError, BadRequestError, UploadError }
+export {
+    ErrorHandler,
+    ForbiddenError,
+    UnauthorizedError,
+    NotFoundError,
+    BadRequestError,
+    UploadError
+}

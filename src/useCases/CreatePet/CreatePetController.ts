@@ -17,13 +17,24 @@ const createPetSchema = z.object({
     requirements: z.any()
 })
 
-async function createPetController(request: FastifyRequest, reply: FastifyReply) {
+async function createPetController(
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
     try {
         const repository = new PrismaPetsRepository()
         const createPet = new CreatePetUseCase(repository)
 
-        const { name, about, age, energy_level, environment, requirements, independence_level, size } =
-            createPetSchema.parse(request.body)
+        const {
+            name,
+            about,
+            age,
+            energy_level,
+            environment,
+            requirements,
+            independence_level,
+            size
+        } = createPetSchema.parse(request.body)
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { files } = request as any

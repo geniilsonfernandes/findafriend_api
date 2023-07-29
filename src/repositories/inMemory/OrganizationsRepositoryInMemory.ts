@@ -1,4 +1,7 @@
-import { IOrganizationCreateDTO, OrganizationsRepository } from '../implementations/IOrganizationsRepository'
+import {
+    IOrganizationCreateDTO,
+    OrganizationsRepository
+} from '../implementations/IOrganizationsRepository'
 import { Organizations } from '../../entities/Organizations'
 import { randomUUID } from 'crypto'
 
@@ -19,7 +22,11 @@ class OrganizationsRepositoryInMemory implements OrganizationsRepository {
     }
 
     async findByEmail(email: string): Promise<Organizations | undefined> {
-        return this.organizations.find((organization) => organization.email === email) || undefined
+        return (
+            this.organizations.find(
+                (organization) => organization.email === email
+            ) || undefined
+        )
     }
 }
 
