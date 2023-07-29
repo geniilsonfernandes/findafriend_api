@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  findfrienddb:
+    container_name: findfriend-db-container
+    image: postgres:13
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: findfriend_db
+    ports:
+      - 5432:5432
+  
+
