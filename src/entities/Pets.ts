@@ -1,5 +1,5 @@
-import { Pets } from '@prisma/client'
+import { Pets as PrismaPet } from '@prisma/client'
 
-interface IPets extends Pets {}
+interface Pet extends PrismaPet {}
 
-export { IPets }
+export { Pet }

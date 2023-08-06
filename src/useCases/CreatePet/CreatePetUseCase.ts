@@ -1,4 +1,4 @@
-import { IPet } from '../../entities/Pets'
+import { Pet } from '../../entities/Pets'
 import { PrismaPetsRepository } from '../../repositories/prisma/PrismaPetsRepository'
 
 interface ICreatePetUseCaseRequestDTO {
@@ -11,9 +11,11 @@ interface ICreatePetUseCaseRequestDTO {
     environment: string
     photos: string[]
     requirements: string[]
+
+    organization_id: string
 }
 
-interface ICreatePetUseCaseResponseDTO extends IPet {}
+interface ICreatePetUseCaseResponseDTO extends Pet {}
 
 class CreatePetUseCase {
     constructor(private petsRepository: PrismaPetsRepository) {}

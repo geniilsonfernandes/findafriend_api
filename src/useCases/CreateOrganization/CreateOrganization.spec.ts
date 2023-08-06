@@ -1,9 +1,9 @@
 import { describe, it, beforeEach, expect } from 'vitest'
 import { CreateOrganizationUseCase } from './CreateOrganizationUseCase'
 import { OrganizationsRepositoryInMemory } from '../../repositories/inMemory/OrganizationsRepositoryInMemory'
-import { IOrganizationCreateDTO } from '../../repositories/implementations/IOrganizationsRepository'
 import { UserAlreadyExistsError } from '../../utils/errors/ErrorHandler'
 import { compare } from 'bcryptjs'
+import { IOrganizationCreateDTO } from '../../repositories/implementations/DTO'
 
 let organizationsRepositoryInMemory: OrganizationsRepositoryInMemory
 let createOrganizationUseCase: CreateOrganizationUseCase

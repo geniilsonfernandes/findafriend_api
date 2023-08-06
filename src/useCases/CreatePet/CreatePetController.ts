@@ -14,7 +14,8 @@ const createPetSchema = z.object({
     energy_level: z.string(),
     independence_level: z.string(),
     environment: z.string(),
-    requirements: z.any()
+    requirements: z.any(),
+    organization_id: z.string()
 })
 
 async function createPetController(
@@ -33,7 +34,8 @@ async function createPetController(
             environment,
             requirements,
             independence_level,
-            size
+            size,
+            organization_id
         } = createPetSchema.parse(request.body)
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,7 +53,7 @@ async function createPetController(
             environment,
             independence_level,
             requirements: requerimentsSplit,
-
+            organization_id,
             size,
             photos: urls
         })

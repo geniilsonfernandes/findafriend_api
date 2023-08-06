@@ -1,10 +1,8 @@
 import { hash } from 'bcryptjs'
 import { Organizations } from '../../entities/Organizations'
-import {
-    IOrganizationCreateDTO,
-    OrganizationsRepository
-} from '../../repositories/implementations/IOrganizationsRepository'
+import { OrganizationsRepository } from '../../repositories/implementations/IOrganizationsRepository'
 import { UserAlreadyExistsError } from '../../utils/errors/ErrorHandler'
+import { IOrganizationCreateDTO } from '../../repositories/implementations/DTO'
 
 interface ICreatePetUseCaseResponseDTO extends Organizations {}
 

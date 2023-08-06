@@ -1,20 +1,9 @@
 import { Organizations } from '../../entities/Organizations'
-
-export interface IOrganizationCreateDTO {
-    name: string
-    email: string
-    phone: string
-    address: string
-    city: string
-    state: string
-    cep: string
-    website: string | null
-    password: string
-}
+import { IOrganizationCreateDTO } from './DTO'
 
 interface OrganizationsRepository {
     create(data: IOrganizationCreateDTO): Promise<Organizations>
-    findByEmail(email: string): Promise<Organizations | undefined>
+    findByEmail(email: string): Promise<Organizations | null>
 }
 
 export { OrganizationsRepository }
