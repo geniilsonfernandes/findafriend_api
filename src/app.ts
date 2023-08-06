@@ -4,15 +4,28 @@ import fastify from 'fastify'
 import multer from 'fastify-multer'
 import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
-
+import fastifyJwt from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
 import { ZodError } from 'zod'
 
-import { appRoutes } from './http/routes'
+import { appRoutes, authenticate, organizationRoutes } from './http/routes'
 
 // quero saber quais configuraçoes o fastify tem
 const app = fastify({
     logger: true
 })
+
+app.register(fastifyJwt, {
+    secret: env.JWT_SECRET,
+    cookie: {
+        cookieName: 'refreshToken',
+        signed: false // means : if true, the secret will be used to sign the cookie. If false, the secret will be used to decode the cookie.
+    },
+    sign: {
+        expiresIn: '10m' // 10 minutes
+    }
+})
+app.register(fastifyCookie)
 
 app.register(swagger, {
     swagger: {
@@ -39,6 +52,8 @@ app.register(swaggerUI, swaggerUiOptions)
 //  TODO: como rodar essa aplicação pelo docker
 app.register(multer.contentParser)
 app.register(appRoutes)
+app.register(authenticate)
+app.register(organizationRoutes)
 
 app.register((app, options, done) => {
     app.get('/', {

@@ -40,6 +40,12 @@ export class UserAlreadyExistsError extends ErrorHandler {
     }
 }
 
+export class InvalidCredentialsError extends ErrorHandler {
+    constructor(message = 'Invalid credentials') {
+        super(message)
+    }
+}
+
 export {
     ErrorHandler,
     ForbiddenError,

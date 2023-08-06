@@ -1,7 +1,77 @@
 import { FastifySchema } from 'fastify'
 
+const TAGS = {
+    organization: 'Organization',
+    auth: 'Auth',
+    pet: 'Pet'
+}
+export const auth: Record<string, FastifySchema> = {
+    session: {
+        summary: 'Create a new session',
+        tags: [TAGS.auth]
+    },
+
+    refreshToken: {
+        summary: 'Refresh a token',
+        tags: [TAGS.auth],
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    token: { type: 'string' },
+                    message: { type: 'string' }
+                }
+            },
+            401: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' }
+                }
+            }
+        }
+    }
+}
+
+export const pet: Record<string, FastifySchema> = {
+    create: {
+        summary: 'Create a new pet',
+        tags: [TAGS.pet],
+        body: {
+            type: 'object',
+            properties: {
+                name: { type: 'string' }
+            }
+        },
+        response: {
+            201: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' }
+                }
+            }
+        }
+    },
+    list: {
+        summary: 'List all pets',
+        tags: [TAGS.pet],
+        response: {
+            200: {
+                type: 'array',
+                items: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string' }
+                    }
+                }
+            }
+        }
+    }
+}
+
 export const organization: Record<string, FastifySchema> = {
     create: {
+        summary: 'Create a new organization',
+        tags: [TAGS.organization],
         body: {
             type: 'object',
             properties: {
@@ -34,7 +104,10 @@ export const organization: Record<string, FastifySchema> = {
             400: {
                 type: 'object',
                 properties: {
-                    message: { type: 'string' }
+                    message: {
+                        type: 'string',
+                        enum: ['Email already exists', 'invalid body']
+                    }
                 }
             },
             500: {

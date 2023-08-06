@@ -1,9 +1,9 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { PrismaOrganizationsRepository } from '../../repositories/prisma/PrismaOrganizationsRepository'
-import { CreateOrganizationUseCase } from './CreateOrganizationUseCase'
 
 import { z } from 'zod'
-import { UserAlreadyExistsError } from '../../utils/errors/ErrorHandler'
+import { PrismaOrganizationsRepository } from '../../../repositories/prisma/PrismaOrganizationsRepository'
+import { CreateOrganizationUseCase } from '../../../useCases/CreateOrganization/CreateOrganizationUseCase'
+import { UserAlreadyExistsError } from '../../../utils/errors/ErrorHandler'
 
 const createOrganizationSchema = z.object({
     name: z.string(),
@@ -18,7 +18,7 @@ const createOrganizationSchema = z.object({
 })
 
 const repository = new PrismaOrganizationsRepository()
-const createOrganization = new CreateOrganizationUseCase(repository)
+const createOrganizationUseCase = new CreateOrganizationUseCase(repository)
 
 async function createOrganizationController(
     request: FastifyRequest,
@@ -27,7 +27,7 @@ async function createOrganizationController(
     try {
         const bodyParsed = createOrganizationSchema.parse(request.body)
 
-        const organization = await createOrganization.execute({
+        const organization = await createOrganizationUseCase.execute({
             address: bodyParsed.address,
             cep: bodyParsed.cep,
             city: bodyParsed.city,

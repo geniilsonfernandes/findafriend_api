@@ -1,10 +1,13 @@
 import '@fastify/jwt'
 
 declare module '@fastify/jwt' {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     export interface FastifyJWT {
+        payload: {
+            organization_id: string
+        }
         user: {
             sub: string
+            organization_id: string
         }
     }
 }
