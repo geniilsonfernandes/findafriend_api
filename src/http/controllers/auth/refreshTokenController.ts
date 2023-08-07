@@ -1,15 +1,31 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
+import jsonwebtoken from 'jsonwebtoken'
+import { env } from '../../../env'
+
+import { z } from 'zod'
+import { tokenConfig } from '../../../shared/tokenConfig'
 
 async function refreshTokenController(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
     try {
-        await request.jwtVerify({
-            onlyCookie: true
+        const schema = z.object({
+            refreshToken: z.string()
         })
 
-        const { organization_id } = request.user
+        const { refreshToken } = schema.parse(request.body)
+
+        const verify = jsonwebtoken.verify(refreshToken, env.JWT_SECRET)
+
+        const { organization_id } = verify as { organization_id: string }
+
+        // with cookie
+        // await request.jwtVerify({
+        //     onlyCookie: true
+        // })
+
+        // const { organization_id } = request.user
 
         const newToken = await reply.jwtSign(
             {
@@ -17,19 +33,19 @@ async function refreshTokenController(
             },
             {
                 sign: {
-                    expiresIn: '1d',
+                    expiresIn: tokenConfig.tokenEpxiration,
                     sub: organization_id
                 }
             }
         )
 
-        const refreshToken = await reply.jwtSign(
+        const newRefreshToken = await reply.jwtSign(
             {
                 organization_id: organization_id
             },
             {
                 sign: {
-                    expiresIn: '7d',
+                    expiresIn: tokenConfig.refreshTokenExpiration,
                     sub: organization_id
                 }
             }
@@ -45,11 +61,12 @@ async function refreshTokenController(
             .status(200)
             .send({
                 message: 'Token refreshed',
-                token: newToken
+                token: newToken,
+                refreshToken: newRefreshToken
             })
     } catch (err) {
         return reply.status(401).send({
-            message: 'Unauthorized, merda',
+            message: 'Unauthorized, please login again',
             error: err
         })
     }

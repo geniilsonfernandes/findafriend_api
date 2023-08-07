@@ -4,6 +4,7 @@ import { CreateSessionUseCase } from '../../../useCases/CreateSession/CreateSess
 
 import { z } from 'zod'
 import { InvalidCredentialsError } from '../../../utils/errors/ErrorHandler'
+import { tokenConfig } from '../../../shared/tokenConfig'
 
 const repository = new PrismaOrganizationsRepository()
 const createSession = new CreateSessionUseCase(repository)
@@ -28,7 +29,7 @@ async function sessionController(request: FastifyRequest, reply: FastifyReply) {
             },
             {
                 sign: {
-                    expiresIn: '1d',
+                    expiresIn: tokenConfig.tokenEpxiration,
                     sub: session.organization.id
                 }
             }
@@ -40,7 +41,7 @@ async function sessionController(request: FastifyRequest, reply: FastifyReply) {
             },
             {
                 sign: {
-                    expiresIn: '7d',
+                    expiresIn: tokenConfig.refreshTokenExpiration,
                     sub: session.organization.id
                 }
             }

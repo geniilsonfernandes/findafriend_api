@@ -14,6 +14,12 @@ export const auth: Record<string, FastifySchema> = {
     refreshToken: {
         summary: 'Refresh a token',
         tags: [TAGS.auth],
+        body: {
+            type: 'object',
+            properties: {
+                refreshToken: { type: 'string' }
+            }
+        },
         response: {
             200: {
                 type: 'object',
