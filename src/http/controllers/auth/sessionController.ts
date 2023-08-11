@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { PrismaOrganizationsRepository } from '../../../repositories/prisma/PrismaOrganizationsRepository'
 import { CreateSessionUseCase } from '../../../useCases/CreateSession/CreateSessionUseCase'
-
-import { z } from 'zod'
 import { InvalidCredentialsError } from '../../../utils/errors/ErrorHandler'
 import { tokenConfig } from '../../../shared/tokenConfig'
+
+import { z } from 'zod'
 
 const repository = new PrismaOrganizationsRepository()
 const createSession = new CreateSessionUseCase(repository)

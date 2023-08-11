@@ -1,9 +1,9 @@
+import { env } from '../../../env'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import jsonwebtoken from 'jsonwebtoken'
-import { env } from '../../../env'
+import { tokenConfig } from '../../../shared/tokenConfig'
 
 import { z } from 'zod'
-import { tokenConfig } from '../../../shared/tokenConfig'
 
 async function refreshTokenController(
     request: FastifyRequest,
