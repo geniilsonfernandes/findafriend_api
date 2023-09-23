@@ -1,10 +1,11 @@
 import { prisma } from '../../lib/prisma'
-
-import { OrganizationsRepository } from '../implementations/IOrganizationsRepository'
 import { Organizations } from '../../entities/Organizations'
-import { IOrganizationCreateDTO } from '../implementations/DTO'
+import {
+    IOrganizationCreateDTO,
+    IOrganizationsRepository
+} from '../implementations/IOrganizationsRepository'
 
-class PrismaOrganizationsRepository implements OrganizationsRepository {
+class PrismaOrganizationsRepository implements IOrganizationsRepository {
     async create(data: IOrganizationCreateDTO): Promise<Organizations> {
         const organization = await prisma.organizations.create({ data })
 

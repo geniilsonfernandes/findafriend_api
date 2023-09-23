@@ -1,9 +1,16 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 
-import { z } from 'zod'
+// repositories
 import { PrismaOrganizationsRepository } from '../../../repositories/prisma/PrismaOrganizationsRepository'
+
+// use cases
 import { CreateOrganizationUseCase } from '../../../useCases/CreateOrganization/CreateOrganizationUseCase'
-import { UserAlreadyExistsError } from '../../../utils/errors/ErrorHandler'
+
+// erros
+import { ErrorHandler } from '../../../utils/errors/ErrorHandler'
+
+// schemas
+import { z } from 'zod'
 
 const createOrganizationSchema = z.object({
     name: z.string(),
@@ -44,7 +51,7 @@ async function createOrganizationController(
             organization: { ...organization, password: undefined }
         })
     } catch (err) {
-        if (err instanceof UserAlreadyExistsError) {
+        if (err instanceof ErrorHandler) {
             return reply.status(409).send({
                 message: err.message
             })

@@ -1,9 +1,11 @@
-import { OrganizationsRepository } from '../implementations/IOrganizationsRepository'
+import {
+    IOrganizationsRepository,
+    IOrganizationCreateDTO
+} from '../implementations/IOrganizationsRepository'
 import { Organizations } from '../../entities/Organizations'
 import { randomUUID } from 'crypto'
-import { IOrganizationCreateDTO } from '../implementations/DTO'
 
-class OrganizationsRepositoryInMemory implements OrganizationsRepository {
+class OrganizationsRepositoryInMemory implements IOrganizationsRepository {
     private organizations: Organizations[] = []
 
     async create(data: IOrganizationCreateDTO): Promise<Organizations> {

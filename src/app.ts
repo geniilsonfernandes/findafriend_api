@@ -93,7 +93,8 @@ app.setErrorHandler((error, _, reply) => {
     if (error instanceof multer.MulterError) {
         reply.status(400).send({
             message: error.message,
-            erros: error.code
+            erros: error.code,
+            type: 'MulterError'
         })
     }
 

@@ -1,45 +1,31 @@
 import { FastifyInstance } from 'fastify'
 
-// controlers
-import { createPetController } from '../useCases/CreatePet/CreatePetController'
-import { upload } from '../utils/multer'
-
-// docs
-import { auth, organization, pet } from './docs/schemas'
-
 // middlewares
-// import { verifyJwtMid } from './middlewares/verifyJwt'
+import { upload } from '../utils/multer'
+import { verifyJwtMid } from './middlewares/verifyJwt'
 
-// auth controllers
+// controllers
 import { refreshTokenController } from './controllers/auth/refreshTokenController'
 import { sessionController } from './controllers/auth/sessionController'
 import { createOrganizationController } from './controllers/organization/createOrganizationController'
+import { createPetController } from './controllers/pet/CreatePetController'
 
 async function authenticate(app: FastifyInstance) {
-    app.post('/sessions', { schema: auth.session }, sessionController)
-    app.patch(
-        '/refresh-token',
-        { schema: auth.refreshToken },
-        refreshTokenController
-    )
+    app.post('/sessions', sessionController)
+    app.patch('/refresh-token', refreshTokenController)
 }
 
 async function organizationRoutes(app: FastifyInstance) {
-    app.post(
-        '/organizations',
-        {
-            schema: organization.create
-        },
-        createOrganizationController
-    )
+    app.post('/organizations', createOrganizationController)
 }
 
 async function appRoutes(app: FastifyInstance) {
+    //  add middleware in fastify when request come
+    app.addHook('onRequest', verifyJwtMid)
     app.post(
         '/pets',
         {
-            preHandler: upload().array('images', 5),
-            schema: pet.create
+            preHandler: upload().array('images', 5)
         },
         createPetController
     )

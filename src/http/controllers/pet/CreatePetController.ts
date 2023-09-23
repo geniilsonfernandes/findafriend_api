@@ -1,10 +1,20 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { CreatePetUseCase } from './CreatePetUseCase'
-import { ErrorHandler } from '../../utils/errors/ErrorHandler'
-import { PrismaPetsRepository } from '../../repositories/prisma/PrismaPetsRepository'
 
+// repositories
+import { PrismaPetsRepository } from '../../../repositories/prisma/PrismaPetsRepository'
+
+// use cases
+import { storagePhotos } from '../../../helper/storagePhotos'
+import { CreatePetUseCase } from '../../../useCases/CreatePet/CreatePetUseCase'
+
+// erros
+import {
+    ErrorHandlerDefault,
+    NotFoundError
+} from '../../../utils/errors/ErrorHandler'
+
+// schemas
 import { z } from 'zod'
-import { storagePhotos } from '../../helper/storagePhotos'
 
 const createPetSchema = z.object({
     name: z.string(),
@@ -18,14 +28,14 @@ const createPetSchema = z.object({
     organization_id: z.string()
 })
 
+const repository = new PrismaPetsRepository()
+const createPet = new CreatePetUseCase(repository)
+
 async function createPetController(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
     try {
-        const repository = new PrismaPetsRepository()
-        const createPet = new CreatePetUseCase(repository)
-
         const {
             name,
             about,
@@ -41,9 +51,13 @@ async function createPetController(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { files } = request as any
 
-        const urls = await storagePhotos(files)
+        console.log(files)
 
-        const requerimentsSplit = requirements.split(',')
+        if (!files || files.length === 0) {
+            throw new NotFoundError(400, 'No files uploaded')
+        }
+
+        const urls = await storagePhotos(files)
 
         const pet = await createPet.execute({
             name,
@@ -52,7 +66,10 @@ async function createPetController(
             energy_level,
             environment,
             independence_level,
-            requirements: requerimentsSplit,
+            requirements:
+                typeof requirements === 'string'
+                    ? [requirements]
+                    : requirements,
             organization_id,
             size,
             photos: urls
@@ -60,12 +77,13 @@ async function createPetController(
 
         reply.code(201).send({
             message: 'Pet created successfully',
-            requirements,
             pet
         })
     } catch (err) {
-        if (err instanceof ErrorHandler) {
-            reply.code(400).send({ message: err.message })
+        if (err instanceof ErrorHandlerDefault) {
+            reply
+                .code(err.statusCode)
+                .send({ message: err.message, code: err.statusCode })
         }
 
         throw err

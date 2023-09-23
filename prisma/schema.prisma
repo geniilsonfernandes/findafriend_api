@@ -21,6 +21,7 @@ model Pets {
     environment        String
     photos             String[]
     requirements       String[]
+    available          Boolean  @default(true)
 
     createdAt       DateTime       @default(now())
     updatedAt       DateTime       @updatedAt

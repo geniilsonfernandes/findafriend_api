@@ -1,9 +1,9 @@
 import { describe, it, beforeEach, expect } from 'vitest'
 import { CreateOrganizationUseCase } from './CreateOrganizationUseCase'
 import { OrganizationsRepositoryInMemory } from '../../repositories/inMemory/OrganizationsRepositoryInMemory'
-import { UserAlreadyExistsError } from '../../utils/errors/ErrorHandler'
+import { AlreadyExistsError } from '../../utils/errors/ErrorHandler'
 import { compare } from 'bcryptjs'
-import { IOrganizationCreateDTO } from '../../repositories/implementations/DTO'
+import { IOrganizationCreateDTO } from '../../repositories/implementations/IOrganizationsRepository'
 
 let organizationsRepositoryInMemory: OrganizationsRepositoryInMemory
 let createOrganizationUseCase: CreateOrganizationUseCase
@@ -55,6 +55,6 @@ describe('Create Organization use case', () => {
 
         await expect(
             createOrganizationUseCase.execute(organization)
-        ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+        ).rejects.toBeInstanceOf(AlreadyExistsError)
     })
 })

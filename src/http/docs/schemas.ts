@@ -43,9 +43,18 @@ export const pet: Record<string, FastifySchema> = {
         summary: 'Create a new pet',
         tags: [TAGS.pet],
         body: {
-            type: 'object',
+            type: 'multipart',
             properties: {
-                name: { type: 'string' }
+                name: { type: 'string' },
+                about: { type: 'string' },
+                age: { type: 'string' },
+                energy_level: { type: 'string' },
+                environment: { type: 'string' },
+                requirements: { type: 'string' },
+                independence_level: { type: 'string' },
+                size: { type: 'string' },
+                organization_id: { type: 'string' },
+                images: { type: 'string' }
             }
         },
         response: {
@@ -53,6 +62,20 @@ export const pet: Record<string, FastifySchema> = {
                 type: 'object',
                 properties: {
                     id: { type: 'string' }
+                }
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: {
+                        type: 'string'
+                    },
+                    errors: {
+                        type: 'object',
+                        properties: {
+                            name: { type: 'string' }
+                        }
+                    }
                 }
             }
         }
