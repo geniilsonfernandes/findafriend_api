@@ -39,12 +39,13 @@ async function createOrganizationController(
             website: bodyParsed.website
         })
 
-        return reply
-            .status(201)
-            .send({ organization: { ...organization, password: undefined } })
+        return reply.code(201).send({
+            message: 'Organization created',
+            organization: { ...organization, password: undefined }
+        })
     } catch (err) {
         if (err instanceof UserAlreadyExistsError) {
-            return reply.status(400).send({
+            return reply.status(409).send({
                 message: err.message
             })
         }

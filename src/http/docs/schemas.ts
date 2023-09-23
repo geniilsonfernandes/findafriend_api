@@ -96,30 +96,51 @@ export const organization: Record<string, FastifySchema> = {
             201: {
                 type: 'object',
                 properties: {
-                    id: { type: 'string' },
-                    name: { type: 'string' },
-                    email: { type: 'string' },
-                    phone: { type: 'string' },
-                    address: { type: 'string' },
-                    city: { type: 'string' },
-                    state: { type: 'string' },
-                    cep: { type: 'string' },
-                    website: { type: 'string' }
+                    message: { type: 'string' },
+                    organization: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            name: { type: 'string' },
+                            email: { type: 'string' },
+                            phone: { type: 'string' },
+                            address: { type: 'string' },
+                            city: { type: 'string' },
+                            state: { type: 'string' },
+                            cep: { type: 'string' },
+                            website: { type: 'string' },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' }
+                        }
+                    }
                 }
             },
             400: {
                 type: 'object',
                 properties: {
                     message: {
-                        type: 'string',
-                        enum: ['Email already exists', 'invalid body']
+                        type: 'string'
+                    },
+                    errors: {
+                        type: 'object',
+                        properties: {
+                            name: { type: 'string' },
+                            email: { type: 'string' },
+                            phone: { type: 'string' },
+                            address: { type: 'string' },
+                            city: { type: 'string' },
+                            state: { type: 'string' },
+                            cep: { type: 'string' },
+                            website: { type: 'string' }
+                        }
                     }
                 }
             },
             500: {
                 type: 'object',
                 properties: {
-                    message: { type: 'string' }
+                    message: { type: 'string' },
+                    errors: {}
                 }
             }
         }

@@ -8,7 +8,7 @@ import { upload } from '../utils/multer'
 import { auth, organization, pet } from './docs/schemas'
 
 // middlewares
-import { verifyJwtMid } from './middlewares/verifyJwt'
+// import { verifyJwtMid } from './middlewares/verifyJwt'
 
 // auth controllers
 import { refreshTokenController } from './controllers/auth/refreshTokenController'
@@ -25,8 +25,6 @@ async function authenticate(app: FastifyInstance) {
 }
 
 async function organizationRoutes(app: FastifyInstance) {
-    app.addHook('onRequest', verifyJwtMid)
-
     app.post(
         '/organizations',
         {

@@ -34,6 +34,7 @@ describe('Create Organization use case', () => {
         )
 
         expect(organizationCreated).toHaveProperty('id')
+        expect(organizationCreated.name).toBe(organization.name)
     })
 
     it("should hash organization's password", async () => {

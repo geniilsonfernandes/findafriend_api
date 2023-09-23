@@ -23,6 +23,7 @@
     "license": "ISC",
     "dependencies": {
         "@fastify/cookie": "^9.0.4",
+        "@fastify/cors": "^8.3.0",
         "@fastify/swagger": "^8.8.0",
         "@fastify/swagger-ui": "^1.9.3",
         "@prisma/client": "^5.0.0",
